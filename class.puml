@@ -1,0 +1,49 @@
+@startuml
+
+class "User" {
+    - userID : int
+    - username : string
+    - email : string
+    + useSystemForAppointment()
+    + viewDoctorProfile()
+    + cancelAppointment()
+}
+
+class "Doctor" {
+    - doctorID : int
+    - specialization : string
+    + viewPatientOnlineRegistrations()
+    + schedule()
+    + remindAppointment()
+}
+
+class "Patient" {
+    - patientID : int
+    - registrationStatus : boolean
+    - appointmentTime : string
+    + register()
+    + setAppointmentTime(time: string)
+}
+
+class "Administrator" {
+    - adminID : int
+    + manageSystem()
+}
+
+class "Schedule" {
+    - registrationStatus : boolean
+    - patientReminder : boolean
+    - doctorReminder : boolean
+    + setPatientReminder(reminder: boolean)
+    + setDoctorReminder(reminder: boolean)
+}
+
+"User" <|-- "Doctor"
+"User" <|-- "Patient"
+"User" <|-- "Administrator"
+
+"Doctor" --> "Schedule"
+"Administrator" --> "Schedule"
+"Patient" --> "Schedule"
+
+@enduml
