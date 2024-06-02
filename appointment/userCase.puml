@@ -1,0 +1,29 @@
+@startuml
+
+left to right direction
+
+actor User as "病患"
+actor Doctor as "醫師"
+actor Administrator as "管理者"
+
+rectangle "線上掛號系統" {
+    usecase "病患線上掛號登記作業" as UC1
+    usecase "查看院內所有醫師的履歷" as UC2
+    usecase "取消或更改掛號" as UC3
+    usecase "查看掛號狀態" as UC4
+    usecase "繳付掛號費用" as UC5
+    usecase "更改醫生履歷" as UC7
+    usecase "系統維護與更新" as UC6
+}
+
+User --> UC1 : 使用系統進行掛號
+User --> UC2 : 查看醫師履歷
+User --> UC3 : 取消或更改掛號
+User --> UC4 : 查看掛號狀態
+User --> UC5 : 繳付看診費用
+Doctor --> UC1 : 查看病患線上掛號登記
+Doctor --> UC4 : 查看病患掛號狀態
+Doctor --> UC7 : 更改醫生履歷
+Administrator --> UC6 : 系統維護與更新
+
+@enduml

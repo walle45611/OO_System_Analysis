@@ -1,0 +1,21 @@
+@startuml
+
+actor "Doctor" as Doctor
+entity "System" as AMS
+database "Appointment Schedule" as Schedule
+
+Doctor -> AMS : Login(username, password)
+Doctor -> AMS : Start viewing appointments
+loop for each patient's appointment
+    Doctor -> Schedule : retrieveAppointment(patientID)
+    Schedule --> Doctor : appointmentData
+    alt if data needs modification
+        Doctor -> Schedule : modifyAppointment(patientID, newData)
+        Schedule --> Doctor : Modification Success
+    else
+        Doctor -> Schedule : No modification needed
+    end
+end
+Doctor -> AMS : End viewing appointments
+
+@endumd

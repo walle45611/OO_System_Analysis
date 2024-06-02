@@ -1,0 +1,39 @@
+@startuml
+
+actor "Patient" as Patient
+actor "Doctor" as Doctor
+actor "Administrator" as Admin
+entity "System" as System
+database "MedicalRecord" as MedRec
+database "ScheduleDB" as Schedule
+
+== Patient Registration and Appointment Booking ==
+Patient -> System : register(username, email)
+Patient -> System : login(username, password)
+Patient -> System : bookAppointment(doctorID, time)
+System -> Schedule : checkAvailability(doctorID, time)
+alt if time available
+    Schedule -> System : confirmAvailability()
+    Patient -> System : confirmAppointment(appointmentID)
+    System -> Schedule : scheduleAppointment(patientID, doctorID, time)
+else
+    System -> Patient : displayErrorMessage("Time not available")
+end
+
+== Doctor Logs In and Manages Schedule ==
+Doctor -> System : login(username, password)
+Doctor -> System : retrieveAppointments()
+System -> Schedule : retrieveDoctorSchedule(doctorID)
+Schedule -> Doctor : displaySchedule(appointments)
+Doctor -> System : updateSchedule(scheduleID, newDate, newTime)
+System -> Schedule : modifyAppointmentData(patientID, newDate)
+Schedule -> Doctor : confirmScheduleUpdate()
+
+== Administrator Manages System ==
+Admin -> System : login(username, password)
+Admin -> System : addUser(newUser)
+Admin -> System : removeUser(userID)
+System -> MedRec : updateRecords(changes)
+MedRec -> Admin : confirmChanges()
+
+@enduml

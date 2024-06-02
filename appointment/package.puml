@@ -1,0 +1,51 @@
+@startuml
+
+package "線上掛號系統" {
+    package "User Module" {
+        [User]
+        [Doctor]
+        [Patient]
+        [Administrator]
+    }
+    
+    package "Authentication Module" {
+        [Authentication Service]
+    }
+    
+    package "Appointment Module" {
+        [Appointment]
+        [Appointment Management]
+    }
+    
+    package "Schedule Module" {
+        [Schedule]
+        [Schedule Management]
+    }
+    
+    package "Medical Records Module" {
+        [MedicalRecord]
+        [Medical Records Management]
+    }
+    
+    package "Notification Module" {
+        [Notification Service]
+    }
+    
+    package "Database Module" {
+        [Database]
+    }
+    
+    package "Logging Module" {
+        [Logging Service]
+    }
+}
+
+[User Module] ..> [Authentication Module] : Uses
+[Appointment Module] ..> [Schedule Module] : Uses
+[Medical Records Module] ..> [Database Module] : Uses
+[Logging Module] ..> [User Module] : Logs
+[Notification Module] ..> [Appointment Module] : Notifies
+[Appointment Module] ..> [Database Module] : Uses
+[Schedule Module] ..> [Database Module] : Uses
+
+@enduml

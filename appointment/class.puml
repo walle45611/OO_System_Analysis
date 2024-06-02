@@ -1,0 +1,124 @@
+@startuml
+
+' 定義基礎用戶類別
+class "User" {
+    - userID : int {PK}
+    - username : string
+    - password : string
+    - email : string
+    + login(password : string) : void
+    + logout() : void
+    + updateProfile(email : string) : void
+}
+
+' 定義醫生類別
+class "Doctor" {
+    - doctorID : int {PK}
+    - specialization : string
+    - userID : int {FK}
+    + retrieveAppointments() : List<Appointment>
+    + createSchedule(time : DateTime) : Schedule
+    + updateSchedule(scheduleID : int, newDate : DateTime) : boolean
+}
+
+' 定義病人類別
+class "Patient" {
+    - patientID : int {PK}
+    - registered : boolean
+    - healthCardNumber : string
+    - userID : int {FK}
+    + register(username : string, email : string) : void
+    + bookAppointment(doctorID : int, time : DateTime) : boolean
+    + confirmAppointment(appointmentID : int) : void
+    + viewAppointments() : List<Appointment>
+}
+
+' 定義管理員類別
+class "Administrator" {
+    - adminID : int {PK}
+    - userID : int {FK}
+    + manageSystem() : void
+    + addUser(user : User) : boolean
+    + removeUser(userID : int) : boolean
+}
+
+' 定義醫院類別
+class "Hospital" {
+    - hospitalID : int {PK}
+    - name : string
+    - address : string
+    + addDepartment(department : Department) : boolean
+    + removeDepartment(departmentID : int) : boolean
+}
+
+' 定義科室類別
+class "Department" {
+    - departmentID : int {PK}
+    - name : string
+    - location : string
+    - hospitalID : int {FK}
+    + addDoctor(doctor : Doctor) : boolean
+    + removeDoctor(doctorID : int) : boolean
+    + getDoctors() : List<Doctor>
+}
+
+' 定義預約類別
+class "Appointment" {
+    - appointmentID : int {PK}
+    - doctorID : int {FK}
+    - patientID : int {FK}
+    - appointmentTime : DateTime
+    - status : string
+    + confirmAppointment() : boolean
+    + cancelAppointment() : boolean
+    + rescheduleAppointment(newSeconds : DateTime) : boolean
+}
+
+' 定義時間表類別
+class "Schedule" {
+    - scheduleID : int {PK}
+    - date : DateTime
+    - time : Time
+    - appointmentStatus : boolean
+    - patientReminder : boolean
+    - doctorReminder : boolean
+    - doctorID : int {FK}
+    + scheduleAppointment(patientID : int) : boolean
+    + modifyAppointmentData(patientID : int, newDate : DateTime) : boolean
+}
+
+' 定義醫療記錄類別
+class "MedicalRecord" {
+    - recordID : int {PK}
+    - patientID : int {FK}
+    - doctorID : int {FK}
+    - diagnosis : string
+    - treatment : string
+    - visitDate : DateTime
+    + getMedicalHistory(patientID : int) : List<Record>
+}
+
+' 定義錯誤處理類別
+class "ErrorHandling" {
+    + handleLoginError() : void
+    + handleDataError() : void
+    + handlePermissionError() : void
+}
+
+' 定義類別之間的繼承和關聯
+"User" <|-- "Doctor"
+"User" <|-- "Patient"
+"User" <|-- "Administrator"
+
+"Doctor" --> "Appointment" : has appointments
+"Patient" --> "Appointment" : books appointments
+"Schedule" --> "Appointment" : schedules appointments
+"Doctor" --> "Schedule"
+"Patient" --> "MedicalRecord"
+"Hospital" -- "Department"
+"Department" -- "Doctor"
+
+' 定義系統與錯誤處理的關聯
+"System" --> "ErrorHandling"
+
+@enduml

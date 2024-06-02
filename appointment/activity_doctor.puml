@@ -1,0 +1,14 @@
+
+@startuml
+start
+:醫生登入系統;
+:選擇查看掛號登記;
+repeat
+    :查看病患掛號資料;
+    if (需要修改資料) then (是)
+        :修改掛號資料;
+    endif
+repeat while (還有更多病患?)
+:結束查看;
+stop
+@enduml

@@ -1,0 +1,23 @@
+@startuml
+
+actor "Patient" as Patient
+entity "System" as System
+database "Appointment Schedule" as Schedule
+
+Patient -> System : Login(username, password)
+Patient -> System : bookAppointment(doctorID : int, time : DateTime)
+loop Selection of Appointment Date and Time
+    System -> Schedule : Check Availability
+    alt Time Available
+        Schedule --> System : Time Available
+        Patient -> System : Confirm Appointment
+        break
+    else Time Not Available
+        Schedule --> System : Time Not Available
+        System -> Patient : Display Error Message
+        Patient -> System : bookAppointment(doctorID : int, time : DateTime)
+    end
+end
+Patient -> System : Appointment Complete
+
+@enduml

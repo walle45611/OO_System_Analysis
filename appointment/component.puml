@@ -1,0 +1,28 @@
+@startuml
+
+package "線上掛號系統" {
+    [User Management] <<Component>>
+    [Appointment Management] <<Component>>
+    [Schedule Management] <<Component>>
+    [Medical Records Management] <<Component>>
+    [Database] <<Database>>
+
+    [User Interface] <<Component>>
+    [Authentication Service] <<Component>>
+    [Notification Service] <<Component>>
+    [Logging Service] <<Component>>
+}
+
+[User Interface] --> [User Management] : uses
+[User Interface] --> [Appointment Management] : uses
+[User Interface] --> [Schedule Management] : uses
+[User Management] --> [Authentication Service] : uses
+[Appointment Management] --> [Database] : reads/writes
+[Schedule Management] --> [Database] : reads/writes
+[Medical Records Management] --> [Database] : reads/writes
+
+[Appointment Management] .up.> [Notification Service] : triggers
+[User Management] .up.> [Logging Service] : logs activities
+[Medical Records Management] --> [Logging Service] : logs changes
+
+@enduml

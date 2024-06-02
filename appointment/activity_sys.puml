@@ -1,0 +1,29 @@
+@startuml
+start
+:患者登入;
+if (是否已註冊) then (是)
+    :查詢掛號資訊;
+else (否)
+    :註冊患者資訊;
+    if (註冊成功) then (是)
+        :查詢掛號資訊;
+    else (否)
+        stop
+    endif
+endif
+:選擇掛號科室;
+if (該科室是否可掛號) then (是)
+    :掛號;
+    if (是否需要支付) then (是)
+        :支付掛號費用;
+        :掛號成功;
+    else (否)
+        :掛號成功;
+    endif
+else (否)
+    :顯示無法掛號資訊;
+    stop
+endif
+:列印掛號憑證;
+stop
+@enduml

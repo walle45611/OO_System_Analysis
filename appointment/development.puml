@@ -1,0 +1,35 @@
+@startuml
+
+node "Web Server" {
+    folder "Web Application" {
+        [Hospital Management System UI]
+        [Authentication Service]
+    }
+    [Logging Service]
+}
+
+node "Application Server" {
+    [User Management]
+    [Appointment Management]
+    [Schedule Management]
+    [Medical Records Management]
+    [Notification Service]
+}
+
+database "Database Server" {
+    [User Database]
+    [Appointment Database]
+    [Schedule Database]
+    [Medical Records Database]
+}
+
+node "Client Device" {
+    [Web Browser]
+}
+
+[Web Browser] --> [Hospital Management System UI] : HTTP/HTTPS
+[Hospital Management, Appointment Management, Schedule Management, Medical Records Management] --> [Database Server] : JDBC/ODBC
+[Authentication Service] --> [User Database] : Queries
+[Logging Service] --> [Application Server] : Logs Activities
+
+@enduml
